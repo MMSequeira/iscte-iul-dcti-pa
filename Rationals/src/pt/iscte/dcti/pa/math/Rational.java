@@ -5,6 +5,13 @@ public class Rational {
 	private int numerator;
 	private int denominator;
 
+	public Rational (final int numerator){
+		this.numerator = numerator;
+		this.denominator =1;
+		checkInvariant();
+	}
+	
+	
 	public Rational(final int numerator, final int denominator) {
 		if(denominator == 0)
 			throw new IllegalArgumentException("Illegal value of denominator. Should be != 0, was " + denominator + ".");
