@@ -1,17 +1,24 @@
 package pt.iscte.dcti.pa.math;
 
+// TODO Extend class Number and implement conversion methods.
+
+/*
+ * Operations to implements:
+ * Addition
+ * Subtraction
+ * Product
+ * Division
+ * Symmetrical
+ * Inverse
+ * equals
+ * toString
+ * compareTo
+ */
 public class Rational {
 
 	private int numerator;
 	private int denominator;
 
-	public Rational (final int numerator){
-		this.numerator = numerator;
-		this.denominator =1;
-		checkInvariant();
-	}
-	
-	
 	public Rational(final int numerator, final int denominator) {
 		if(denominator == 0)
 			throw new IllegalArgumentException("Illegal value of denominator. Should be != 0, was " + denominator + ".");
@@ -19,10 +26,17 @@ public class Rational {
 		this.numerator = numerator;
 		this.denominator = denominator;
 
-		//J sousa
-		//normalize();
+		normalize();
 		
 		checkInvariant();
+	}
+
+	public Rational(final int number) {
+		this(number, 1);
+	}
+
+	public Rational() {
+		this(0, 1);
 	}
 
 	public int getNumerator() {
@@ -60,6 +74,12 @@ public class Rational {
 	private static int gcd(int firstValue, int secondValue) {
 		assert firstValue != 0 || secondValue != 0 : "IIlegal value of arguments. Cannot be both zero.";
 
+		if(firstValue < 0)
+			firstValue = -firstValue;
+		if(secondValue < 0)
+			secondValue = -secondValue;
+		
+		
 		while(firstValue != 0) {
 			final int oldFirstValue = firstValue;
 			firstValue = secondValue % firstValue;
