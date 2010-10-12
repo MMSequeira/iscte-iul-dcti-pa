@@ -12,7 +12,7 @@ public class Rational {
 		this.numerator = numerator;
 		this.denominator = denominator;
 
-		//normalize();
+		normalize();
 		
 		checkInvariant();
 	}
