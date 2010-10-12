@@ -12,7 +12,8 @@ public class Rational {
 		this.numerator = numerator;
 		this.denominator = denominator;
 
-		normalize();
+		//J sousa
+		//normalize();
 		
 		checkInvariant();
 	}
