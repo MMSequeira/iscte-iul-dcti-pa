@@ -9,6 +9,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static pt.iscte.dcti.pa.math.Rational.*;
 
 public class RationalTester {
 	// TODO Create testers for constructors with 0 and 1 arguments.
@@ -45,13 +46,13 @@ public class RationalTester {
 	}
 
 	@Test
-	public void testAdd() {
+	public void testSumOf() {
 		Rational r1 = new Rational(1, 3);
 		Rational r2 = new Rational(4, 6);
 
-		r2.add(r1);
+		Rational r3 = sumOf(r1, r2);
 		
-		assertEquals(new Rational(1), r2);
+		assertEquals(new Rational(1), r3);
 	}
 
 	@Test

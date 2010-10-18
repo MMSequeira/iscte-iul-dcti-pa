@@ -14,21 +14,28 @@ package pt.iscte.dcti.pa.math;
  * toString
  * compareTo
  */
+// TODO Create set of annotations to make clear which methods and pure functions and which are non-modifiers.
+// TODO Annotate all attributes as instance-private..
 public class Rational {
 
-	private int numerator;
-	private int denominator;
+	final private int numerator;
+	final private int denominator;
 
-	public Rational(final int numerator, final int denominator) {
+	public Rational(int numerator, int denominator) {
 		if (denominator == 0)
 			throw new IllegalArgumentException(
 					"Illegal value of denominator. Should be != 0, was "
 							+ denominator + ".");
 
-		this.numerator = numerator;
-		this.denominator = denominator;
+		if (denominator < 0) {
+			numerator = -numerator;
+			denominator = -denominator;
+		}
 
-		normalize();
+		int gcd = gcd(numerator, denominator);
+
+		this.numerator = numerator / gcd;
+		this.denominator = denominator / gcd;
 
 		checkInvariant();
 	}
@@ -55,30 +62,45 @@ public class Rational {
 
 	@Override
 	public int hashCode() {
+		checkInvariant();
+
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + denominator;
 		result = prime * result + numerator;
+
+		checkInvariant();
+
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object object) {
+	public boolean equals(final Object object) {
+		checkInvariant();
+
 		if (this == object)
 			return true;
 		if (object == null)
 			return false;
 		if (getClass() != object.getClass())
 			return false;
-		
+
 		Rational other = (Rational) object;
-		
+
+		checkInvariant();
+
 		return denominator == other.denominator && numerator == other.numerator;
 	}
 
-	public void add(Rational r1) {
-		// TODO Auto-generated method stub
-		
+	public static Rational sumOf(final Rational aRational,
+			final Rational anotherRational) {
+
+		// Rethink calculation in order to avoid overflows.
+		return new Rational(aRational.getNumerator()
+				* anotherRational.getDenominator()
+				+ anotherRational.getNumerator() * aRational.getDenominator(),
+				aRational.denominator * anotherRational.getDenominator());
+
 	}
 
 	private void checkInvariant() {
@@ -86,21 +108,6 @@ public class Rational {
 				+ denominator + ".";
 		assert gcd(numerator, denominator) == 1 : "Illegal state. gcd(numerator, denominator) should be 1, is "
 				+ gcd(numerator, denominator) + ".";
-	}
-
-	private void normalize() {
-		if (numerator == 0 && denominator == 0)
-			return;
-
-		if (denominator < 0) {
-			numerator = -numerator;
-			denominator = -denominator;
-		}
-
-		int gcd = gcd(numerator, denominator);
-
-		numerator /= gcd;
-		denominator /= gcd;
 	}
 
 	private static int gcd(int firstValue, int secondValue) {
