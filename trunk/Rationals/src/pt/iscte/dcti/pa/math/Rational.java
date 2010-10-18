@@ -20,14 +20,16 @@ public class Rational {
 	private int denominator;
 
 	public Rational(final int numerator, final int denominator) {
-		if(denominator == 0)
-			throw new IllegalArgumentException("Illegal value of denominator. Should be != 0, was " + denominator + ".");
-		
+		if (denominator == 0)
+			throw new IllegalArgumentException(
+					"Illegal value of denominator. Should be != 0, was "
+							+ denominator + ".");
+
 		this.numerator = numerator;
 		this.denominator = denominator;
 
 		normalize();
-		
+
 		checkInvariant();
 	}
 
@@ -51,22 +53,52 @@ public class Rational {
 		return denominator;
 	}
 
-	private void checkInvariant() {
-		assert 0 < denominator : "Illegal state. Denominator should be > 0, is " + denominator + ".";
-		assert gcd(numerator, denominator) == 1 : "Illegal state. gcd(numerator, denominator) should be 1, is " + gcd(numerator, denominator) + ".";
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + denominator;
+		result = prime * result + numerator;
+		return result;
 	}
-	
-	private void normalize() {
-		if(numerator == 0 && denominator == 0)
-			return;
+
+	@Override
+	public boolean equals(Object object) {
+		if (this == object)
+			return true;
+		if (object == null)
+			return false;
+		if (getClass() != object.getClass())
+			return false;
 		
-		if(denominator < 0) {
+		Rational other = (Rational) object;
+		
+		return denominator == other.denominator && numerator == other.numerator;
+	}
+
+	public void add(Rational r1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void checkInvariant() {
+		assert 0 < denominator : "Illegal state. Denominator should be > 0, is "
+				+ denominator + ".";
+		assert gcd(numerator, denominator) == 1 : "Illegal state. gcd(numerator, denominator) should be 1, is "
+				+ gcd(numerator, denominator) + ".";
+	}
+
+	private void normalize() {
+		if (numerator == 0 && denominator == 0)
+			return;
+
+		if (denominator < 0) {
 			numerator = -numerator;
 			denominator = -denominator;
 		}
-		
+
 		int gcd = gcd(numerator, denominator);
-		
+
 		numerator /= gcd;
 		denominator /= gcd;
 	}
@@ -74,18 +106,17 @@ public class Rational {
 	private static int gcd(int firstValue, int secondValue) {
 		assert firstValue != 0 || secondValue != 0 : "IIlegal value of arguments. Cannot be both zero.";
 
-		if(firstValue < 0)
+		if (firstValue < 0)
 			firstValue = -firstValue;
-		if(secondValue < 0)
+		if (secondValue < 0)
 			secondValue = -secondValue;
-		
-		
-		while(firstValue != 0) {
+
+		while (firstValue != 0) {
 			final int oldFirstValue = firstValue;
 			firstValue = secondValue % firstValue;
 			secondValue = oldFirstValue;
 		}
-		
+
 		return secondValue;
 	}
 
