@@ -44,15 +44,15 @@ public class RationalTester {
 		assertFalse(r1.equals("Hello!"));
 	}
 
-//	@Test
-//	public void testAdd???() {
-//		Rational r1 = new Rational(1, 3);
-//		Rational r2 = new Rational(4, 6);
-//
-//		r2.add(r1);
-//		assertEquals(0, r.getNumerator());
-//		assertEquals(1, r.getDenominator());
-//	}
+	@Test
+	public void testAdd() {
+		Rational r1 = new Rational(1, 3);
+		Rational r2 = new Rational(4, 6);
+
+		r2.add(r1);
+		
+		assertEquals(new Rational(1), r2);
+	}
 
 	@Test
 	public void testZeroArgumentsConstructor() {
