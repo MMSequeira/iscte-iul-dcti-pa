@@ -15,9 +15,16 @@ namespace pt {
 
 					int denominator() const;
 
-					void operator+=(Rational otherRational);
+					Rational& operator++();
+					Rational operator++(int);
 
-					bool operator==(Rational otherRational) const;
+					Rational& operator+=(Rational const& otherRational);
+
+					bool operator==(Rational const& otherRational) const;
+
+					bool operator<(Rational const& otherRational) const;
+
+					bool operator>(Rational const& otherRational) const;
 
 				private:
 
@@ -56,6 +63,8 @@ namespace pt {
 					numerator_ /= greatest_common_divisor;
 					denominator_ /= greatest_common_divisor;
 				}
+
+				Rational operator+(Rational firstRational, Rational const& secondRational);
 			}
 		}
 	}
