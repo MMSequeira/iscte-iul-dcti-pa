@@ -5,8 +5,6 @@ import java.util.Deque;
 
 import org.aspectj.lang.JoinPoint;
 
-import static java.lang.System.out;
-
 public aspect StackReplicaBuilder {
 
 	private static Deque<JoinPoint> stackReplica = new ArrayDeque<JoinPoint>();
