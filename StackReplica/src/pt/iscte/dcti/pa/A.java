@@ -4,11 +4,11 @@ import static java.lang.System.out;
 
 public class A {
 	
-	private static int i;
-	
-	static {
-		i = 10;
-	}
+//	private static int i;
+//	
+//	static {
+//		i = 10;
+//	}
 	
 	@Root
 	public void foo1() {
