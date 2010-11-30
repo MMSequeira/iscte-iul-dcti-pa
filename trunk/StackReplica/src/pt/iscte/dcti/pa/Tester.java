@@ -9,5 +9,6 @@ public class Tester {
 	public static void main(final String[] arguments) {
 		new A().foo1();
 		new A().foo2();
+		
 	}
 }
