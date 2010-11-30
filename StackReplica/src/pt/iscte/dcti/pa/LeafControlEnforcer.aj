@@ -3,7 +3,7 @@ package pt.iscte.dcti.pa;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
-public aspect LeafControlEnforcer {
+public abstract aspect LeafControlEnforcer {
 	
 	pointcut none();
 	
