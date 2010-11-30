@@ -24,8 +24,8 @@ public class B {
 	@Leaf
 	public void foo4() {
 		out.println("B.foo4()");
-		out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
-		out.println(StackReplicaBuilder.getStackReplica());
+//		out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
+//		out.println(StackReplicaBuilder.getStackReplica());
 	}
 
 }

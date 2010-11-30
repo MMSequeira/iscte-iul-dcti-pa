@@ -18,7 +18,13 @@ public class A {
 
 	public void foo2() {
 		out.println("A.foo2()");
-		foo3();
+		C.run(new Runnable() {
+			
+			@Override
+			public void run() {
+				foo3();
+			}
+		});
 	}
 
 	public void foo3() {
