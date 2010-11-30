@@ -9,8 +9,38 @@ import org.aspectj.lang.JoinPoint;
 import static java.lang.System.out;
 
 public aspect StackReplicaBuilder {
+	
+	public static class StackElement {
+		public StackElement(JoinPoint joinPoint) {
+			this.joinPoint = joinPoint;
+			this.stackTraceElement = null;
+		}
+		
+		public StackElement(StackTraceElement stackTraceElement) {
+			this.joinPoint = null;
+			this.stackTraceElement = stackTraceElement;			
+		}
+		
+		public JoinPoint getJoinPoint() {
+			return joinPoint;
+		}
 
-	private static ThreadLocal<Deque<JoinPoint>> stackReplica = new ThreadLocal<Deque<JoinPoint>>();
+		public StackTraceElement getStackTraceElement() {
+			return stackTraceElement;
+		}
+		
+		@Override
+		public String toString() {
+			if (joinPoint != null)
+				return joinPoint.toString(); 
+			return stackTraceElement.toString();
+		}
+
+		private JoinPoint joinPoint;
+		private StackTraceElement stackTraceElement;
+	}
+
+	private static ThreadLocal<Deque<StackElement>> stackReplica = new ThreadLocal<Deque<StackElement>>();
 
 	pointcut none();
 
@@ -28,9 +58,16 @@ public aspect StackReplicaBuilder {
 
 	before() : scope() && !exclusions() && executions() {
 		if(stackReplica.get() == null)
-			stackReplica.set(new ArrayDeque<JoinPoint>());
+			stackReplica.set(new ArrayDeque<StackElement>());
 		
-		stackReplica.get().addLast(thisJoinPoint);
+//		if (StackReplicaBuilder.getStackReplica().size() + 1 < Thread.currentThread().getStackTrace().length - 2)
+//			
+//			0 - conselho
+//			1 - getStackTrace
+//			2 - joinpoint
+//			3 - topo da pilha antes do jointpoint
+//			...
+		stackReplica.get().addLast(new StackElement(thisJoinPoint));
 		
 //		out.println(StackReplicaBuilder.getStackReplica());
 //		out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
@@ -40,7 +77,7 @@ public aspect StackReplicaBuilder {
 
 	after() : scope() && !exclusions() && executions() {
 		assert stackReplica.get() != null : "Duplo ops!";
-		assert thisJoinPoint == stackReplica.get().getLast() : "Ops!";
+		assert thisJoinPoint == stackReplica.get().getLast().getJoinPoint() : "Ops!";
 
 //		out.println(StackReplicaBuilder.getStackReplica());
 //		out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
@@ -50,7 +87,7 @@ public aspect StackReplicaBuilder {
 		stackReplica.get().removeLast();
 	}
 
-	public static Deque<JoinPoint> getStackReplica() {
+	public static Deque<StackElement> getStackReplica() {
 		return stackReplica.get();
 	}
 }

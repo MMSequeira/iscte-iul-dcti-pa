@@ -20,8 +20,8 @@ public abstract aspect LeafControlEnforcer {
 	pointcut executions() : methodExecutions() || constructorExecutions();
 
 	before () : scope() && !exclusions() && executions() {
-		for (JoinPoint joinPoint : StackReplicaBuilder.getStackReplica())
-			if(((MethodSignature)joinPoint.getSignature()).getMethod().getAnnotation(Root.class) != null)
+		for (StackReplicaBuilder.StackElement stackElement : StackReplicaBuilder.getStackReplica())
+			if(((MethodSignature)stackElement.getJoinPoint().getSignature()).getMethod().getAnnotation(Root.class) != null)
 				return;
 		throw new RuntimeException("@Leaf without @Root!!");
 	}
