@@ -1,0 +1,1 @@
+Este projecto serve de repositório para todo o código criado para apoio às aulas de Programação Avançado ou desenvolvido durante as respectivas aulas.
